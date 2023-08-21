@@ -1,0 +1,23 @@
+---
+- name: Revoke current access token
+  uri:
+    url: "{{ venafi_url }}/vedauth/Revoke/token"
+    method: GET
+    headers:
+      Accept: 'application/json'
+      Authorization: "Bearer {{ access_token }}"
+  register: revoke_token_reg
+  when: authenticated|bool == true
+  delegate_to: localhost
+
+- name: Remove access token from credentials file
+  lineinfile:
+    path: "{{ credentials_file }}"
+    regexp: '^access_token'
+    state: absent
+  delegate_to: localhost
+
+- debug:
+    msg: "Access token revoked"
+  when: revoke_token_reg.status == 200
+  delegate_to: localhost
