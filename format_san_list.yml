@@ -1,0 +1,34 @@
+---
+# This produces a string consumable by the Venafi Ansible collection
+# Format: IP:<IPADDESS>,IP:<IPADDRESS>,DNS:<DNSNAME>,...
+# TODO: Refactor as there must be an easier way to do this
+- name: Format Subject Alt Names
+  block:
+    # Create subalts with DNS: prefixes
+    - set_fact:
+        name_str: "{% for name in venafi_certs.subject_alt_names %} DNS:{{ name }} {% endfor %}"
+    - set_fact:
+        name_list: "{{ name_str.split( ) }}"
+    # Create ip addresses with IP: prefixes
+    - set_fact:
+        ip_str: "{% for ipaddr in venafi_certs.ip_addresses %} IP:{{ ipaddr }} {% endfor %}"
+    - set_fact:
+        ip_list: "{{ ip_str.split( ) }}"
+    # Concatenate both lists and convert to string
+    - set_fact:
+        san_list: "{{ ip_list + name_list }}"
+    - set_fact:
+        san_str: "{{ san_list | join(',') }}"
+    - debug:
+        msg: "Formatted SAN string: {{ san_str }}"
+- name: Debug var assignments
+  block:
+    - debug:
+        msg: "Venafi cert FQDN: {{ venafi_certs.fqdn }}"
+    - debug:
+        msg: "Venafi subject alt names: {{ venafi_certs.subject_alt_names }}"
+    - debug:
+        msg: "Venafi IP addresses: {{ venafi_certs.ip_addresses }}"
+    - debug:
+        msg: "SAN list: {{ san_list }}"
+  when: debug_mode|bool
