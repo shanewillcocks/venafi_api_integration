@@ -1,0 +1,17 @@
+---
+debug_mode: false
+venafi_url: "https://..."
+remote_cert_dir: "/tmp/venafi_certs"
+remote_execution: false
+credentials_file: "credentials.yml"
+venafi_certs:
+  fqdn: <<FQDN>> # Use ansible / inventory hostname fact as default if not speficied as evar
+  subject_alt_names:
+    - <<SAN1>> # Use ansible facts as default if not speficied as evar
+    - <<SANn>>
+  ip_addresses:
+    - <<IPA1>> # Use ansible facts as default if not speficied as evar
+    - <<IPAn>> 
+cert_name: "{{ venafi_certs.fqdn }}.crt"
+key_name: "{{ venafi_certs.fqdn }}.key"
+chain_name: "{{ venafi_certs.fqdn }}-ca-bundle.crt"
