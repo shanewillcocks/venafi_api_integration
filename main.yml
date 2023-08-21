@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: false
+  gather_facts: false
+  collections: venafi.machine_identity
+  vars_files: vars.yml
+  vars_prompt:
+    - name: venafi_user
+      prompt: "Venafi username"
+      private: false
+      default: <<VenServiceAccount>>
+    - name: venafi_pwd
+      prompt: "Venafi password"
+      private: true
+    - name: cert_pwd
+      prompt: "Certificate password"
+      private: true
+
+  tasks:
+    - assert:
+        that: 
+          - venafi_certs.subject_alt_names is iterable
+          - venafi_certs.ip_addresses is iterable
+        fail_msg: "IP addresses and/or subalt list not supplied"
+        success_msg: "IP addresses and subalt lists OK"
+    - include_tasks: format_san_list.yml
+    - include_tasks: venafi_auth.yml
+    - include_tasks: venafi_generate_certs.yml
+    - include_tasks: venafi_revoke_auth.yml
