@@ -1,0 +1,29 @@
+---
+- name: Create remote directory 
+  file:
+    path: "{{ remote_cert_dir }}"
+    state: directory
+    mode: 0755
+  when: remote_execution|bool == true
+
+- name: Call Venafi role to generate certificates
+  include_role:
+    name: venafi.machine_identity.certificate
+  vars:
+    credentials_file: "credentials.yml"
+    certificate_common_name: "{{ venafi_certs.fqdn }}"
+    certificate_alt_name: "{{ san_list }}"
+    certificate_privatekey_type: "RSA"
+    certificate_privatekey_size: "2048"
+    certificate_chain_option: "first"
+    certificate_cert_dir: "/tmp/{{ certificate_common_name }}"
+    certificate_cert_path: "{{ certificate_cert_dir }}/{{ cert_name }}"
+    certificate_chain_path: "{{ certificate_cert_dir }}/{{ chain_name }}"
+    certificate_privatekey_path: "/{{ certificate_cert_dir }}/{{ key_name }}"
+    certificate_before_expired_hours: 336
+    certificate_remote_execution: "{{ remote_execution }}"
+    certificate_remote_privatekey_path: "{{ remote_cert_dir }}/{{ key_name }}"
+    certificate_remote_cert_path: "{{ remote_cert_dir }}/{{ cert_name }}"
+    certificate_remote_chain_path: "{{ remote_cert_dir }}/{{ chain_name }}"
+    certificate_remote_cert_dir: "{{ remote_cert_dir }}"
+    certificate_copy_private_key_to_remote: false
