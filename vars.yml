@@ -4,6 +4,7 @@ venafi_url: "https://..."
 remote_cert_dir: "/tmp/venafi_certs"
 remote_execution: false
 credentials_file: "credentials.yml"
+copy_private_key_to_remote: true
 venafi_certs:
   fqdn: <<FQDN>> # Use ansible / inventory hostname fact as default if not speficied as evar
   subject_alt_names:
