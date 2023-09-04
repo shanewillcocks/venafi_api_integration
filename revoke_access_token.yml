@@ -1,7 +1,7 @@
 ---
 - name: Revoke current access token
   uri:
-    url: "{{ venafi_url }}/vedauth/Revoke/token"
+    url: "{{ url }}/vedauth/Revoke/token"
     method: GET
     headers:
       Accept: 'application/json'
