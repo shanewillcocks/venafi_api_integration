@@ -20,10 +20,17 @@
     certificate_cert_path: "{{ certificate_cert_dir }}/{{ cert_name }}"
     certificate_chain_path: "{{ certificate_cert_dir }}/{{ chain_name }}"
     certificate_privatekey_path: "/{{ certificate_cert_dir }}/{{ key_name }}"
+    certificate_privatekey_passphrase: "{{ cert_pwd }}"
     certificate_before_expired_hours: 336
     certificate_remote_execution: "{{ remote_execution }}"
     certificate_remote_privatekey_path: "{{ remote_cert_dir }}/{{ key_name }}"
     certificate_remote_cert_path: "{{ remote_cert_dir }}/{{ cert_name }}"
     certificate_remote_chain_path: "{{ remote_cert_dir }}/{{ chain_name }}"
     certificate_remote_cert_dir: "{{ remote_cert_dir }}"
-    certificate_copy_private_key_to_remote: false
+    certificate_copy_private_key_to_remote: "{{ copy_private_key_to_remote }}"
+  register: generate_certs_reg
+
+- name: Dump cert request response
+  debug:
+    msg: generate_certs_reg
+  when: debug_mode|bool
