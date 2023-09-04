@@ -1,7 +1,7 @@
 ---
 - name: Authenticate to Venafi
   uri:
-    url: "{{ venafi_url }}/vedauth/authorize/oauth"
+    url: "{{ url }}/vedauth/authorize/oauth"
     url_username: "{{ venafi_user }}"
     url_password: "{{ venafi_pwd }}"
     force_basic_auth: true
