@@ -28,4 +28,4 @@
     - include_tasks: format_san_list.yml
     - include_tasks: auth.yml
     - include_tasks: generate_certs.yml
-    - include_tasks: revoke_auth.yml
+    - include_tasks: revoke_access_token.yml
