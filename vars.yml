@@ -1,6 +1,5 @@
 ---
 debug_mode: false
-venafi_url: "https://..."
 remote_cert_dir: "/tmp/venafi_certs"
 remote_execution: false
 credentials_file: "credentials.yml"
