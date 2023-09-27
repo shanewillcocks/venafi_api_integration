@@ -1,4 +1,5 @@
 ---
+# Start here - prompt for Venafi credentials and a password for the privkey
 - hosts: all
   become: false
   gather_facts: false
