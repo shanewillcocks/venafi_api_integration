@@ -5,12 +5,12 @@ remote_execution: false
 credentials_file: "credentials.yml"
 copy_private_key_to_remote: true
 venafi_certs:
-  fqdn: <<FQDN>> # Use ansible / inventory hostname fact as default if not speficied as evar
+  fqdn: <<FQDN>> # Use ansible / inventory hostname fact as default if not specified as extravar
   subject_alt_names:
-    - <<SAN1>> # Use ansible facts as default if not speficied as evar
+    - <<SAN1>> # Use ansible facts as default if not specified as extravar
     - <<SANn>>
   ip_addresses:
-    - <<IPA1>> # Use ansible facts as default if not speficied as evar
+    - <<IPA1>> # Use ansible facts as default if not specified as an extravar
     - <<IPAn>> 
 cert_name: "{{ venafi_certs.fqdn }}.crt"
 key_name: "{{ venafi_certs.fqdn }}.key"
